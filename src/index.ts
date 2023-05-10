@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import http from "http";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import router from "./router";
 
 dotenv.config();
 
@@ -30,3 +31,5 @@ server.listen(8080, () => {
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URL);
 mongoose.connection.on("error", (error: Error) => console.log(error));
+
+app.use("/", router());
