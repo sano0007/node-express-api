@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { UserSchema } from "../db/users";
+import { CreateUserParams } from "../interface/create-user-params";
 
 const UserModel = mongoose.model("User", UserSchema);
 export abstract class UserUtils {
@@ -7,7 +8,7 @@ export abstract class UserUtils {
     return UserModel.find();
   }
 
-  public static getUserBuEmail(email: string) {
+  public static getUserByEmail(email: string) {
     return UserModel.findOne({ email });
   }
 
@@ -19,7 +20,7 @@ export abstract class UserUtils {
     return UserModel.findById(id);
   }
 
-  public static createUser(values: Record<string, any>) {
+  public static createUser(values: CreateUserParams) {
     return new UserModel(values).save().then((user) => user.toObject());
   }
 
