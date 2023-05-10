@@ -11,7 +11,7 @@ export const register = async (req: express.Request, res: express.Response) => {
     }
 
     const currentUser = await UserUtils.getUserByEmail(email);
-    if (!currentUser) {
+    if (currentUser) {
       return res.sendStatus(400);
     }
 
