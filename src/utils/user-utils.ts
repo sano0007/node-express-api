@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import { UserSchema } from "../db/users";
-import { CreateUserParams } from "../interface/create-user-params";
+import {
+  CreateUserParams,
+  UpdateUserParams,
+} from "../interface/create-user-params";
 
 const UserModel = mongoose.model("User", UserSchema);
 export abstract class UserUtils {
@@ -28,7 +31,7 @@ export abstract class UserUtils {
     return UserModel.findOneAndDelete({ _id: id });
   }
 
-  public static updateUserById(id: string, values: Record<string, any>) {
+  public static updateUserById(id: string, values: UpdateUserParams) {
     return UserModel.findByIdAndUpdate(id, values);
   }
 }

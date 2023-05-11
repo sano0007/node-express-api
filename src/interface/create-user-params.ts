@@ -3,3 +3,8 @@ export interface CreateUserParams {
   username: string;
   authentication: { salt: string; password: string };
 }
+
+export interface UpdateUserParams {
+  email?: string;
+  username?: string;
+}
