@@ -6,9 +6,10 @@ export abstract class AuthHelper {
   }
 
   public static authentication(salt: string, password: string) {
-    return crypto
+    const hashedData = crypto
       .createHmac("sha256", [salt, password].join("/"))
       .update(process.env.SECRET)
       .digest();
+    return hashedData.toString();
   }
 }
