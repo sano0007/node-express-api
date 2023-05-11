@@ -7,7 +7,7 @@ export const getAllUsers = async (
 ) => {
   try {
     const users = await UserUtils.getUser();
-    return res.sendStatus(200).json(users);
+    return res.json(users);
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
