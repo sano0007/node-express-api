@@ -24,11 +24,11 @@ export abstract class UserUtils {
     return new UserModel(values).save().then((user) => user.toObject());
   }
 
-  public deleteUserById(id: string) {
+  public static deleteUserById(id: string) {
     return UserModel.findOneAndDelete({ _id: id });
   }
 
-  public updateUserById(id: string, values: Record<string, any>) {
+  public static updateUserById(id: string, values: Record<string, any>) {
     return UserModel.findByIdAndUpdate(id, values);
   }
 }
