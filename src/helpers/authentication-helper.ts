@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-export abstract class AuthHelper {
+export abstract class AuthenticationHelper {
   public static random() {
     return crypto.randomBytes(128).toString("base64");
   }

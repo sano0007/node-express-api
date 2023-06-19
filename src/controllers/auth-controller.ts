@@ -1,6 +1,6 @@
 import express from "express";
 import { UserUtils } from "../utils/user-utils";
-import { AuthHelper } from "../helpers/auth-helper";
+import { AuthenticationHelper } from "../helpers/authentication-helper";
 
 export const register = async (req: express.Request, res: express.Response) => {
   try {
@@ -15,13 +15,13 @@ export const register = async (req: express.Request, res: express.Response) => {
       return res.status(400).json({ error: "Email already taken" });
     }
 
-    const salt = AuthHelper.random();
+    const salt = AuthenticationHelper.random();
     const user = await UserUtils.createUser({
       email,
       username,
       authentication: {
         salt,
-        password: AuthHelper.authentication(salt, password),
+        password: AuthenticationHelper.authentication(salt, password),
       },
     });
 
@@ -48,7 +48,7 @@ export const login = async (req: express.Request, res: express.Response) => {
       return res.status(400).json({ error: "Invalid email or password" });
     }
 
-    const expectedHash = AuthHelper.authentication(
+    const expectedHash = AuthenticationHelper.authentication(
       user.authentication.salt,
       password
     );
@@ -57,8 +57,8 @@ export const login = async (req: express.Request, res: express.Response) => {
       return res.status(403).json({ error: "Invalid email or password" });
     }
 
-    const salt = AuthHelper.random();
-    user.authentication.sessionToken = AuthHelper.authentication(
+    const salt = AuthenticationHelper.random();
+    user.authentication.sessionToken = AuthenticationHelper.authentication(
       salt,
       user._id.toString()
     );
