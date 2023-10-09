@@ -53,3 +53,20 @@ export const updateUser = async (
     return res.sendStatus(400);
   }
 };
+
+export const searchUsers = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { query } = req.query; // The search query parameter from the request
+
+    // Perform a search query based on the 'query' parameter
+    const searchResults = await UserUtils.searchUsers(query.toString());
+
+    return res.json(searchResults);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
