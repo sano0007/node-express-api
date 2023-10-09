@@ -34,4 +34,13 @@ export abstract class UserUtils {
   public static updateUserById(id: string, values: UpdateUserParams) {
     return UserModel.findByIdAndUpdate(id, values);
   }
+
+  public static searchUsers(query: string) {
+    return UserModel.find({
+      $or: [
+        { username: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+      ],
+    });
+  }
 }
