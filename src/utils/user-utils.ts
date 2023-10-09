@@ -4,8 +4,10 @@ import {
   CreateUserParams,
   UpdateUserParams,
 } from "../interface/create-user-params";
+import logger from "./logger";
 
 const UserModel = mongoose.model("User", UserSchema);
+
 export abstract class UserUtils {
   public static getUser() {
     return UserModel.find();
@@ -24,11 +26,28 @@ export abstract class UserUtils {
   }
 
   public static createUser(values: CreateUserParams) {
-    return new UserModel(values).save().then((user) => user.toObject());
+    return new UserModel(values)
+      .save()
+      .then((user) => {
+        logger.info("User created successfully", user);
+        return user.toObject();
+      })
+      .catch((error) => {
+        logger.error("Error creating user", error);
+        throw error;
+      });
   }
 
   public static deleteUserById(id: string) {
-    return UserModel.findOneAndDelete({ _id: id });
+    return UserModel.findOneAndDelete({ _id: id })
+      .then((response) => {
+        logger.info("User deleted successfully", response);
+        return response;
+      })
+      .catch((error) => {
+        logger.error("Error deleting user", error);
+        throw error;
+      });
   }
 
   public static updateUserById(id: string, values: UpdateUserParams) {
