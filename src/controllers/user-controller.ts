@@ -93,3 +93,25 @@ export const exportUserData = async (
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const updateProfilePicture = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+    const { profilePicture } = req.body;
+
+    if (!profilePicture) {
+      return res.sendStatus(400);
+    }
+
+    const user = await UserUtils.getUserById(id);
+    user.profilePicture = profilePicture;
+    await user.save();
+    return res.json(user);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(400);
+  }
+};

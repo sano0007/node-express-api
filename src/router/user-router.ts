@@ -4,6 +4,7 @@ import {
   exportUserData,
   getAllUsers,
   searchUsers,
+  updateProfilePicture,
   updateUser,
 } from "../controllers/user-controller";
 import { isAuthenticated, isOwner } from "../middlewares";
@@ -14,4 +15,10 @@ export default (router: express.Router) => {
   router.post("/users/update/:id", isAuthenticated, isOwner, updateUser);
   router.post("/users/update/:id", isAuthenticated, isOwner, searchUsers);
   router.get("/users/update/:id", isAuthenticated, isOwner, exportUserData);
+  router.post(
+    "/users/update/:id",
+    isAuthenticated,
+    isOwner,
+    updateProfilePicture
+  );
 };
