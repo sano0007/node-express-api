@@ -115,3 +115,25 @@ export const updateProfilePicture = async (
     return res.sendStatus(400);
   }
 };
+
+export const updateBio = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+    const { bio } = req.body;
+
+    if (!bio) {
+      return res.sendStatus(400);
+    }
+
+    const user = await UserUtils.getUserById(id);
+    user.bio = bio;
+    await user.save();
+    return res.json(user);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(400);
+  }
+};
