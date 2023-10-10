@@ -5,6 +5,7 @@ import {
   UpdateUserParams,
 } from "../interface/create-user-params";
 import logger from "./logger";
+import { createObjectCsvWriter } from "csv-writer";
 
 const UserModel = mongoose.model("User", UserSchema);
 
@@ -62,4 +63,32 @@ export abstract class UserUtils {
       ],
     });
   }
+
+  public static generateUserDataCSV = (user: any): string => {
+    const csvWriter = createObjectCsvWriter({
+      path: "user-data.csv",
+      header: [
+        { id: "id", title: "ID" },
+        { id: "username", title: "Username" },
+        { id: "email", title: "Email" },
+      ],
+    });
+
+    const userData = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    };
+
+    csvWriter
+      .writeRecords([userData])
+      .then(() => {
+        console.log("CSV file was written successfully");
+      })
+      .catch((error: any) => {
+        console.error("Error writing CSV file", error);
+      });
+
+    return `ID,Username,Email\n${user.id},${user.username},${user.email}\n`;
+  };
 }
