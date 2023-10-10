@@ -59,12 +59,35 @@ export const searchUsers = async (
   res: express.Response
 ) => {
   try {
-    const { query } = req.query; // The search query parameter from the request
+    const { query } = req.query;
 
-    // Perform a search query based on the 'query' parameter
     const searchResults = await UserUtils.searchUsers(query.toString());
 
     return res.json(searchResults);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const exportUserData = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { id } = req.params;
+
+    const user = await UserUtils.getUserById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.setHeader("Content-Disposition", "attachment; filename=user-data.csv");
+    res.setHeader("Content-Type", "text/csv");
+
+    const csvData = UserUtils.generateUserDataCSV(user);
+    res.send(csvData);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });

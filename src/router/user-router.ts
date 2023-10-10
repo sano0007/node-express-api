@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteUser,
+  exportUserData,
   getAllUsers,
   searchUsers,
   updateUser,
@@ -12,4 +13,5 @@ export default (router: express.Router) => {
   router.delete("/users/:id", isAuthenticated, isOwner, deleteUser);
   router.post("/users/update/:id", isAuthenticated, isOwner, updateUser);
   router.post("/users/update/:id", isAuthenticated, isOwner, searchUsers);
+  router.get("/users/update/:id", isAuthenticated, isOwner, exportUserData);
 };
