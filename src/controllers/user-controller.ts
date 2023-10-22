@@ -1,6 +1,7 @@
 import express from "express";
-import { UserUtils } from "../utils/user-utils";
+import {UserUtils} from "../utils/user-utils";
 
+// Get all users
 export const getAllUsers = async (
   req: express.Request,
   res: express.Response
@@ -10,10 +11,11 @@ export const getAllUsers = async (
     return res.json(users);
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.sendStatus(400); // Bad Request
   }
 };
 
+// Delete a user by ID
 export const deleteUser = async (
   req: express.Request,
   res: express.Response
@@ -25,10 +27,11 @@ export const deleteUser = async (
     return res.json(deleteUser);
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.sendStatus(400); // Bad Request
   }
 };
 
+// Update user information
 export const updateUser = async (
   req: express.Request,
   res: express.Response
@@ -38,22 +41,24 @@ export const updateUser = async (
     const { username, email } = req.body;
 
     if (!username) {
-      return res.sendStatus(400);
+      return res.sendStatus(400); // Bad Request
     }
 
     // const updateUser = await UserUtils.updateUserById(id, { email, username });
     // return res.json(updateUser);
 
+    // Update username
     const user = await UserUtils.getUserById(id);
     user.username = username;
     await user.save();
     return res.json(user);
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.sendStatus(400); // Bad Request
   }
 };
 
+// Search users based on a query
 export const searchUsers = async (
   req: express.Request,
   res: express.Response
@@ -70,6 +75,7 @@ export const searchUsers = async (
   }
 };
 
+// Export user data as CSV
 export const exportUserData = async (
   req: express.Request,
   res: express.Response
@@ -94,6 +100,7 @@ export const exportUserData = async (
   }
 };
 
+// Update user profile picture
 export const updateProfilePicture = async (
   req: express.Request,
   res: express.Response
@@ -103,7 +110,7 @@ export const updateProfilePicture = async (
     const { profilePicture } = req.body;
 
     if (!profilePicture) {
-      return res.sendStatus(400);
+      return res.sendStatus(400); // Bad Request
     }
 
     const user = await UserUtils.getUserById(id);
@@ -112,10 +119,11 @@ export const updateProfilePicture = async (
     return res.json(user);
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.sendStatus(400); // Bad Request
   }
 };
 
+// Update user bio
 export const updateBio = async (
   req: express.Request,
   res: express.Response
@@ -125,7 +133,7 @@ export const updateBio = async (
     const { bio } = req.body;
 
     if (!bio) {
-      return res.sendStatus(400);
+      return res.sendStatus(400); // Bad Request
     }
 
     const user = await UserUtils.getUserById(id);
@@ -134,6 +142,6 @@ export const updateBio = async (
     return res.json(user);
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.sendStatus(400); // Bad Request
   }
 };
